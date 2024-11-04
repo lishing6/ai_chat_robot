@@ -1,2 +1,2 @@
-idf_component_register(SRCS "AI_emotional_companion_robot.cpp" "play.cpp"
+idf_component_register(SRCS "main.cpp" "play.cpp" "record.cpp"
                     INCLUDE_DIRS ".")

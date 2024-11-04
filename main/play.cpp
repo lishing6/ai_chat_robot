@@ -1,6 +1,7 @@
 #include "play.h"
 
 static const char *TAG = "AudioPlay";
+extern int flash_wr_size;
 
 // 从录音缓冲区播放音频
 void i2s_play(uint8_t* wav_buffer, int wav_size) {
@@ -9,9 +10,15 @@ void i2s_play(uint8_t* wav_buffer, int wav_size) {
     ESP_LOGI(TAG, "Starting playback...");
 
     // 播放 WAV 数据
-    i2s_write(I2S_PORT, wav_buffer + WAV_HEADER_SIZE, wav_size - WAV_HEADER_SIZE, &bytes_written, portMAX_DELAY);
-
+    i2s_write(I2S_PORT_OUT, wav_buffer + WAV_HEADER_SIZE, wav_size - WAV_HEADER_SIZE, &bytes_written, portMAX_DELAY);
     ESP_LOGI(TAG, "Playback finished.");
+
+    free(wav_buffer);
+
+    vTaskDelay(3500 / portTICK_PERIOD_MS);
+    i2s_driver_uninstall(I2S_PORT_OUT);
+    free(wav_buffer);
+
 }
 
 // 初始化 I2S 输出
@@ -28,14 +35,14 @@ void i2sInitOutput() {
         .use_apll = 1
     };
 
-    i2s_driver_install(I2S_PORT, &i2s_config, 0, NULL);
+    i2s_driver_install(I2S_PORT_OUT, &i2s_config, 0, NULL);
 
     i2s_pin_config_t pin_config = {
-        .bck_io_num = I2S_SCK,
-        .ws_io_num = I2S_WS,
+        .bck_io_num = I2S_SCK_OUT,
+        .ws_io_num = I2S_WS_OUT,
         .data_out_num = I2S_SD_OUT,  // 输出数据引脚设置
         .data_in_num = I2S_PIN_NO_CHANGE
     };
 
-    i2s_set_pin(I2S_PORT, &pin_config);
+    i2s_set_pin(I2S_PORT_OUT, &pin_config);
 }

@@ -1,0 +1,14 @@
+{
+  "C_Cpp.intelliSenseEngine": "default",
+  "files.associations": {
+    "*.inc": "cpp",
+    "cstring": "cpp",
+    "variant": "cpp"
+  },
+  "idf.adapterTargetName": "esp32s3",
+  "idf.openOcdConfigs": [
+    "board/esp32s3-builtin.cfg"
+  ],
+  "idf.flashType": "UART",
+  "idf.portWin": "COM11"
+}
