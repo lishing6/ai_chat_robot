@@ -1,20 +1,21 @@
 #include "play.h"
 #include "record.h"
+#include "wifi_connect.h"
+#include "http_client.h"
 #include <esp_task_wdt.h>
+
 
 extern uint8_t* wav_buffer;
 
 extern "C"
 void app_main() {
-    esp_task_wdt_deinit(); // 禁用任务看门狗
-    i2sInitInput();
-    i2s_adc();
-    i2sInitOutput();
-    i2s_play(wav_buffer,FLASH_RECORD_SIZE + WAV_HEADER_SIZE);
 
+    esp_task_wdt_deinit();//disable TWDT for debug
+    wifi_connect();
+    send_spark_request("hello");
     while (true)
     {
         /* code */
     }
-    
 }
+
