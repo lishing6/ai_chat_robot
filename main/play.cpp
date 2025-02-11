@@ -1,23 +1,17 @@
 #include "play.h"
 
 static const char *TAG = "AudioPlay";
-extern int flash_wr_size;
 
 // 从录音缓冲区播放音频
-void i2s_play(uint8_t* wav_buffer, int wav_size) {
+void audio_play(uint8_t* audio_data, int size) {
     size_t bytes_written;
 
     ESP_LOGI(TAG, "Starting playback...");
 
-    // 播放 WAV 数据
-    i2s_write(I2S_PORT_OUT, wav_buffer + WAV_HEADER_SIZE, wav_size - WAV_HEADER_SIZE, &bytes_written, portMAX_DELAY);
+    i2s_write(I2S_PORT_OUT, audio_data, size, &bytes_written, portMAX_DELAY);
+    
     ESP_LOGI(TAG, "Playback finished.");
 
-    free(wav_buffer);
-
-    vTaskDelay(3500 / portTICK_PERIOD_MS);
-    i2s_driver_uninstall(I2S_PORT_OUT);
-    free(wav_buffer);
 
 }
 
@@ -29,9 +23,8 @@ void i2sInitOutput() {
         .bits_per_sample = (i2s_bits_per_sample_t)I2S_SAMPLE_BITS,
         .channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
         .communication_format = (i2s_comm_format_t)(I2S_COMM_FORMAT_I2S | I2S_COMM_FORMAT_I2S_MSB),
-        .intr_alloc_flags = 0,
-        .dma_buf_count = 64,
-        .dma_buf_len = 1024,
+        .dma_buf_count = 4,
+        .dma_buf_len = 512,
         .use_apll = 1
     };
 

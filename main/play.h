@@ -2,9 +2,6 @@
 
 #include <driver/i2s.h>
 #include "esp_log.h"
-#include <stdlib.h>
-#include <stdint.h>
-#include <string.h>
 #include "i2sconfig.h"
 
 #define I2S_WS_OUT 16        // LRCLK
@@ -16,5 +13,5 @@
 
 
 void i2sInitOutput();
-void i2s_play(uint8_t* wav_buffer, int wav_size);
+void audio_play(uint8_t* audio_data, int size);
 
