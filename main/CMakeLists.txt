@@ -1,2 +1,2 @@
-idf_component_register(SRCS "http_client.cpp" "wifi_connect.cpp" "main.cpp" "play.cpp" "record.cpp" "."
+idf_component_register(SRCS "AudioPlayer.cpp" "wifi_manager.cpp" "http_manager.cpp" "AudioRecorder.cpp" "main.cpp" "."
                     INCLUDE_DIRS ".")
